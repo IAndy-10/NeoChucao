@@ -22,7 +22,8 @@ setup.sh                    One-step install (--midi, --extras)
 
 - **The two modes are independent.** Each runs on its own and the user picks one. Never couple them: no shared engine, and MIDI mode must not depend on ClaudeCollider, Node.js or anything in `agent/`. Both use the same scsynth, so they never run at the same time. Docs must keep saying so.
 - **Same latent mapping in both modes:** pitch → z0, energy (velocity / `\amp`) → z1, timbre (mod wheel / `\timbre`) → z2, and a moving trajectory through z3–z15. If you change the mapping in one mode, update the other mode or document the difference, and update the mapping tables in the READMEs.
-- **The server runs at 44.1 kHz.** `NN.ar` goes silent at 48 kHz. Both entry points set `sampleRate = 44100`.
+- **The server runs at 44.1 kHz.** `NN.ar` goes silent at 48 kHz. `agent/boot.scd` sets `sampleRate = 44100`. `midi/rave_midi_filter.scd` does not, and relies on the device default (see Known gaps).
+- **In agent mode, only ClaudeCollider creates nodes.** The IDE's sclang must not create synths during a session, to avoid node ID collisions. That rules out `examples/d_dorian_dark.scd` and any other patch that plays sound.
 - **Models are never committed.** `birds.ts` is 138 MB, over GitHub's 100 MB limit. `setup.sh` downloads it from Hugging Face (Intelligent-Instruments-Lab/rave-models).
 - **Agent mode uses two sclang processes.** The SC IDE's sclang runs `boot.scd`; ClaudeCollider's MCP server runs its own sclang. They share only scsynth, so the SynthDef on the server is the interface between them. Do not add bus/Ndef routing between the processes, and do not call `NN.load` from `cc_execute`.
 - **The submodule is read-only.** Never edit files under `agent/claude-collider/`. To update it: `git -C agent/claude-collider pull origin main`, re-run `./setup.sh`, re-verify (see below), then commit the new submodule pointer. If ClaudeCollider renames something (for example `\cc_hat` became `\cc_hihat`), fix `agent/CLAUDE.md`.
@@ -60,6 +61,6 @@ Claude cannot hear audio, so verify headlessly. Use `/Applications/SuperCollider
 ## Known gaps
 
 - ClaudeCollider's effects (`cc_fx` / `~cc.fx`) do not work in agent mode: they route the pattern to a private bus (seen: bus 8) and the audio never reaches the output. `agent/CLAUDE.md` forbids them. A future fix could add reverb/delay inside `\rave_birds` in `boot.scd`, as SynthDef parameters, so no routing between the sclang processes is needed.
-
+- MIDI mode does not set `s.options.sampleRate = 44100`, so it goes silent on an interface that defaults to 48 kHz.
 - `wheel.ts`, used by `examples/rave_single_model.scd` and `examples/rave_mic_input.scd`, has no known download source.
 - The agent demo video is still a TODO in the README.

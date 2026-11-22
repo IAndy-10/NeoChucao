@@ -16,4 +16,4 @@ models/
 
 ## Optional: example models
 
-Some scripts in [`examples/`](../examples) also load `marinemammals.ts` and `wheel.ts`. `../setup.sh --extras` downloads `marinemammals.ts` (`marinemammals_pondbrain_b2048_r48000_z20.ts`). Get them from the same collection, [Intelligent-Instruments-Lab/rave-models](https://huggingface.co/Intelligent-Instruments-Lab/rave-models/tree/main), and rename them to match. If a model file is missing, that script fails to load it.
+Some scripts in [`examples/`](../examples) also load `marinemammals.ts` and `wheel.ts`. `../setup.sh --extras` downloads `marinemammals.ts` (`marinemammals_pondbrain_b2048_r48000_z20.ts` from [Intelligent-Instruments-Lab/rave-models](https://huggingface.co/Intelligent-Instruments-Lab/rave-models/tree/main)). `wheel.ts` is not in that collection, and no download source is documented yet. If a model file is missing, that script fails to load it.

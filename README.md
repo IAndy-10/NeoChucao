@@ -69,9 +69,12 @@ Those commands are all you need. If you cloned without `--recurse-submodules`, `
 
 ### 3. Switching modes
 
-Run one mode at a time. Both use the same SuperCollider audio server, and `agent/boot.scd` kills any running server when it starts. To switch, stop the current mode first: run **Block 4** in MIDI mode, or ask Claude to stop and close the session in agent mode. Then start the other one. Restarting SuperCollider also works.
+Run one mode at a time. Both use the same SuperCollider audio server.
 
-Optional: run [`examples/d_dorian_dark.scd`](examples/d_dorian_dark.scd) as a dark rhythmic bed under either mode.
+- **MIDI → agent:** run **Block 4** to free the MIDI handlers, then follow the agent session order. `agent/boot.scd` kills the running server itself.
+- **Agent → MIDI:** ask Claude to stop everything, quit Claude, then restart SuperCollider (or run `Server.killAll;`) before Block 1. Otherwise MIDI mode starts on ClaudeCollider's server.
+
+Optional: in MIDI mode, run [`examples/d_dorian_dark.scd`](examples/d_dorian_dark.scd) as a dark rhythmic bed under the instrument. Do not use it in agent mode. There, only Claude should create sounds on the server.
 
 ## Iterations
 
@@ -87,7 +90,7 @@ Optional: run [`examples/d_dorian_dark.scd`](examples/d_dorian_dark.scd) as a da
 
 ## LLM use
 
-Built with Claude Code (Claude Sonnet 4.6 and Claude Opus 4.6, as noted in each file header). Claude generated the initial SynthDef structure, MIDI routing boilerplate, latent mapping and trajectory helpers, the compressor/chorus chain and the GUI scaffolding, and helped debug the decoder warm-up latency. The workflow was iterative: prompt → generated code → test in SuperCollider → targeted fix. Generated code always needed checking in the actual runtime, since several idioms were plausible but subtly wrong. The musical decisions were made by hand: which dimensions to expose, playable ranges, and how much motion keeps it interesting without becoming uncontrollable. In `agent/`, an LLM is also part of the instrument itself. See [`agent/README.md`](agent/README.md).
+Built with Claude Code (Claude Sonnet 4.6 and Claude Opus 4.6, as noted in the `.scd` file headers). The repo restructure, `setup.sh`, the ClaudeCollider submodule integration and the docs were done with Claude Code (Claude Opus 5.5) and tested in SuperCollider. Claude generated the initial SynthDef structure, MIDI routing boilerplate, latent mapping and trajectory helpers, the compressor/chorus chain and the GUI scaffolding, and helped debug the decoder warm-up latency. The workflow was iterative: prompt → generated code → test in SuperCollider → targeted fix. Generated code always needed checking in the actual runtime, since several idioms were plausible but subtly wrong. The musical decisions were made by hand: which dimensions to expose, playable ranges, and how much motion keeps it interesting without becoming uncontrollable. In `agent/`, an LLM is also part of the instrument itself. See [`agent/README.md`](agent/README.md).
 
 ## Credits
 

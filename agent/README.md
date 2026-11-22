@@ -62,7 +62,7 @@ To stop, ask Claude to stop everything, or run `~cc.stop;`. Never use `s.freeAll
 | `\atk`, `\rel` | 0.01, 0.2 | ASR envelope times (s) |
 | `\gain` | 0.8 | Output level |
 | `\pan` | 0 | Stereo position |
-| `\out` | 0 | Output bus |
+| `\out` | 0 | Output bus. Keep it at 0: any other bus is silent |
 
 `z3–z15` are driven by 13 `LFDNoise3` generators at slightly different rates, scaled by `speed` and `radius`. That is the agent-side equivalent of the MIDI version's XY-pad trajectory. Claude can also layer ClaudeCollider's built-in drum/bass instruments around it.
 
