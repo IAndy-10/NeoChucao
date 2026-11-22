@@ -150,7 +150,7 @@ The CC MCP sclang's `NN` registry is always empty. The model is already loaded o
 
 ### Never use custom SynthDef from cc_execute
 
-`SynthDef.add` fails silently from cc_execute — CC MCP's `s` shows the server as "not running". Use only `\rave_birds` (defined by boot.scd) and built-in CC instruments (`\cc_pad`, `\cc_lead`, `\cc_bass`, `\cc_kick`, `\cc_snare`, `\cc_hat`).
+`SynthDef.add` fails silently from cc_execute — CC MCP's `s` shows the server as "not running". Use only `\rave_birds` (defined by boot.scd) and built-in CC instruments (`\cc_pad`, `\cc_lead`, `\cc_bass`, `\cc_kick`, `\cc_snare`, `\cc_hihat`).
 
 ## 48kHz / RAVE Sample Rate Issue
 

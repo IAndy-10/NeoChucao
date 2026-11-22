@@ -3,10 +3,7 @@
     "claude-collider": {
       "type": "stdio",
       "command": "node",
-      "args": [
-        "/path/to/claude-collider/dist/index.js"
-      ],
-      "env": {}
+      "args": ["claude-collider/dist/index.js"]
     }
   }
 }

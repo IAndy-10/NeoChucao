@@ -1,0 +1,3 @@
+[submodule "agent/claude-collider"]
+	path = agent/claude-collider
+	url = https://github.com/jeremyruppel/claude-collider

@@ -32,19 +32,29 @@ Both drive the same decoder (`NN(\birds, \decode)`) with the same core mapping: 
 
 ```
 midi/       MIDI keyboard instrument (rave_midi_filter.scd) + mapping docs
-agent/      ClaudeCollider boot file, agent rules (CLAUDE.md), MCP config example, recorded session
+agent/      ClaudeCollider boot file, agent rules (CLAUDE.md), MCP config, recorded session
+  claude-collider/   ClaudeCollider MCP server (git submodule, pinned)
 examples/   Standalone patches: D Dorian generative bed, RAVE timbre transfer (1 model, 2 models, mic input)
 models/     Where birds.ts goes (not tracked)
 ```
 
 ## Quick start
 
-1. Install [SuperCollider](https://supercollider.github.io) and [nn.ar](https://github.com/elgiano/nn.ar) (arm64 release into your SC Extensions folder).
-2. Download the model: see [`models/`](models/README.md).
-3. Pick a navigator:
-   - **MIDI**: open `midi/rave_midi_filter.scd`, run blocks 1 → 2 → 3. See [`midi/README.md`](midi/README.md).
-   - **Agent**: set up ClaudeCollider, connect Claude, then run `agent/boot.scd`. See [`agent/README.md`](agent/README.md).
-4. Optional: run [`examples/d_dorian_dark.scd`](examples/d_dorian_dark.scd) as a dark rhythmic bed under the instrument.
+Requires [SuperCollider](https://supercollider.github.io) and Node.js 18+. Then:
+
+```bash
+git clone --recurse-submodules https://github.com/IAndy-10/NeoChucao.git
+cd NeoChucao
+./setup.sh
+```
+
+`setup.sh` builds [ClaudeCollider](https://github.com/jeremyruppel/claude-collider) (a git submodule at `agent/claude-collider`) and links its SuperCollider classes into your Extensions folder. It also installs [nn.ar](https://github.com/elgiano/nn.ar) if it is missing and downloads the RAVE `birds` model (138 MB) into `models/`. It is safe to re-run. Restart SuperCollider afterwards.
+
+Pick a navigator:
+- **MIDI**: open `midi/rave_midi_filter.scd`, run blocks 1 → 2 → 3. See [`midi/README.md`](midi/README.md).
+- **Agent**: `cd agent && claude`, then run `agent/boot.scd` when Claude asks. See [`agent/README.md`](agent/README.md).
+
+Optional: run [`examples/d_dorian_dark.scd`](examples/d_dorian_dark.scd) as a dark rhythmic bed under the instrument.
 
 ## Iterations
 

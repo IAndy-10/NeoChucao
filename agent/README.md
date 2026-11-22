@@ -8,21 +8,25 @@ You ──→ Claude ──→ ClaudeCollider (MCP) ──→ Pbind(\instrument,
 
 **Authorship:** the agent navigates and proposes, and the performer stays in control. It is a way to explore the latent space by describing a direction in words and hearing where that lands, so you can find regions worth playing. It does not compose a finished piece for you. You steer every step, stop it, and take the results to the MIDI instrument or your own code.
 
-## Prerequisites
-
-- [SuperCollider](https://supercollider.github.io)
-- [nn.ar](https://github.com/elgiano/nn.ar): install the arm64 release into your SC Extensions folder
-- `birds.ts` in [`../models/`](../models/README.md)
-- [ClaudeCollider](https://github.com/jeremyruppel/claude-collider), built locally (`dist/index.js`)
-- Claude Code (or another MCP client)
-
 ## Setup
 
-1. Copy `.mcp.json.example` to `.mcp.json` in the directory where you launch Claude, and set the path to your ClaudeCollider build:
-   ```json
-   "args": ["/path/to/claude-collider/dist/index.js"]
-   ```
-2. Give Claude [`CLAUDE.md`](CLAUDE.md) as its operating rules. Launch Claude Code from this `agent/` folder and it is picked up automatically.
+From the repo root, run `./setup.sh` once (see the [main README](../README.md#quick-start)). It builds ClaudeCollider from the `claude-collider/` submodule, links its classes into SuperCollider, installs nn.ar and downloads `birds.ts`. You also need [Claude Code](https://claude.com/claude-code) or another MCP client.
+
+Then launch Claude Code from this folder:
+
+```bash
+cd agent
+claude
+```
+
+Everything is already wired up here:
+- [`.mcp.json`](.mcp.json) registers ClaudeCollider from the submodule (`claude-collider/dist/index.js`).
+- [`.claude/settings.json`](.claude/settings.json) enables that server.
+- [`CLAUDE.md`](CLAUDE.md) gives Claude its operating rules.
+
+With another MCP client, point it at `node /absolute/path/to/NeoChucao/agent/claude-collider/dist/index.js`.
+
+The submodule is pinned to a tested ClaudeCollider commit. To try a newer one, run `git -C agent/claude-collider pull origin main` and then `./setup.sh`.
 
 ## Session order
 
