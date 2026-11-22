@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "claude-collider": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "/path/to/claude-collider/dist/index.js"
+      ],
+      "env": {}
+    }
+  }
+}

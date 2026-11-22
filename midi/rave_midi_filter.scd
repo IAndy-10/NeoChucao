@@ -1,5 +1,5 @@
 /*
-  NeoChucao — rave_midi.scd
+  NeoChucao — midi/rave_midi_filter.scd
   ══════════════════════════
   MIDI keyboard → latent space → RAVE birds.ts decoder → audio.
 
@@ -25,17 +25,21 @@ s.boot
 // Run once per session. Wait for "Ready." before Block 2.
 // ════════════════════════════════════════════════════════
 (
+// Model lives in ../models/ relative to this file (resolved now, before boot)
+var modelPath = PathName(thisProcess.nowExecutingPath).pathOnly +/+ "../models/birds.ts";
 s.options.memSize = 65536;
 //s.options.numInputBusChannels  = 1;
 s.options.numOutputBusChannels = 2;
-s.options.inDevice_("MacBook Air Microphone");
+// Audio devices — uncomment and set to your own interface names
+// (list them with ServerOptions.devices). Default = system devices.
+//s.options.inDevice_("MacBook Air Microphone");
 //s.options.outDevice_("MacBook Air Speakers");
-s.options.outDevice_("External Headphones");
+//s.options.outDevice_("External Headphones");
 s.latency = 0.05;
 s.waitForBoot {
 
     // ── Load RAVE model ───────────────────────────────────
-    NN.load(\birds, PathName(thisProcess.nowExecutingPath).pathOnly +/+ "/models/birds.ts");
+    NN.load(\birds, modelPath);
     s.sync;
     NN(\birds).describe;
 
