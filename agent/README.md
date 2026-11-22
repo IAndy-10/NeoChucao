@@ -91,6 +91,6 @@ Mid-session:
 ## Troubleshooting
 
 - **Claude says it is playing but you hear nothing:** first check `s.meter;` in the SC IDE. If the output meters are flat, an effect has probably routed the pattern to a private bus. Ask Claude to remove all effects and set `\out, 0` on every pattern.
-- **Silence:** RAVE needs 44.1 kHz. `boot.scd` sets it. Check with `s.sampleRate.postln;`, and if it reads 48000, quit SuperCollider, relaunch, and re-run `boot.scd`.
+- **Silence:** this setup runs at 44.1 kHz, and `boot.scd` sets it. (The model was trained at 48 kHz: see the [sample rate warning](../models/README.md).) Check with `s.sampleRate.postln;`, and if it reads 48000, quit SuperCollider, relaunch, and re-run `boot.scd`.
 - `cc_status` showing `Server: stopped` is an artifact of the two-sclang setup and can be ignored if audio plays.
 - See [`CLAUDE.md`](CLAUDE.md) for the full rules (cc_execute syntax pitfalls, what not to call).

@@ -162,7 +162,9 @@ ClaudeCollider's effects chain does not work with this two-sclang architecture. 
 
 ## 48kHz / RAVE Sample Rate Issue
 
-RAVE models are trained at **44.1kHz**. If the SC server runs at **48kHz**, `NN.ar` is silent.
+This setup runs the server at **44.1kHz**. It has been observed that `NN.ar` is silent when the SC server runs at **48kHz**.
+
+> **Warning:** the birds model (`birds_motherbird_b2048_r48000_z16.ts`) was trained at **48 kHz**, so 44.1 kHz is a mismatch that has not been resolved. Do not change the sample rate during a session. Keep 44.1 kHz, as `boot.scd` sets it.
 
 Fix: quit SuperCollider, relaunch, re-run `boot.scd` — it sets 44100 Hz automatically.
 

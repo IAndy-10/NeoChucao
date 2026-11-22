@@ -62,5 +62,6 @@ Claude cannot hear audio, so verify headlessly. Use `/Applications/SuperCollider
 
 - ClaudeCollider's effects (`cc_fx` / `~cc.fx`) do not work in agent mode: they route the pattern to a private bus (seen: bus 8) and the audio never reaches the output. `agent/CLAUDE.md` forbids them. A future fix could add reverb/delay inside `\rave_birds` in `boot.scd`, as SynthDef parameters, so no routing between the sclang processes is needed.
 - MIDI mode does not set `s.options.sampleRate = 44100`, so it goes silent on an interface that defaults to 48 kHz.
+- **Sample rate mismatch:** `birds.ts` is `birds_motherbird_b2048_r48000_z16.ts`, trained at 48 kHz, but the project runs at 44.1 kHz. The server rate should match the model. This is documented as a warning only. Resolving it (running at 48 kHz and finding out why that was silent) needs code changes and a listening test.
 - `wheel.ts`, used by `examples/rave_single_model.scd` and `examples/rave_mic_input.scd`, has no known download source.
 - The agent demo video is still a TODO in the README.
