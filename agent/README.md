@@ -30,6 +30,8 @@ The submodule is pinned to a tested ClaudeCollider commit. To try a newer one, r
 
 ## Session order
 
+> **Agent mode runs on its own.** Do not run it at the same time as [MIDI mode](../midi/README.md). `boot.scd` kills any running SuperCollider server when it starts, so stop MIDI mode (Block 4) first.
+
 The order matters. ClaudeCollider reboots `scsynth` on its first connection, so that reboot has to happen before the model is loaded.
 
 1. **Connect Claude first.** Claude runs a dummy `cc_execute`, which triggers the scsynth reboot on an empty server.

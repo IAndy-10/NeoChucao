@@ -2,11 +2,12 @@
 
 Play the RAVE `birds` latent space from a MIDI keyboard. Polyphonic, real time, every gesture under the performer's hands.
 
+> **MIDI mode is standalone.** It does not need ClaudeCollider, Node.js or Claude. Run it on its own, not at the same time as [agent mode](../agent/README.md). To switch modes, run Block 4 first.
+
 ## Prerequisites
 
 - [SuperCollider](https://supercollider.github.io)
-- [nn.ar](https://github.com/elgiano/nn.ar): install the arm64 release into your SC Extensions folder
-- `birds.ts` in [`../models/`](../models/README.md)
+- [nn.ar](https://github.com/elgiano/nn.ar) and `birds.ts` in [`../models/`](../models/README.md): `../setup.sh --midi` installs both
 - Any class-compliant MIDI keyboard (mod wheel optional)
 
 ## Run

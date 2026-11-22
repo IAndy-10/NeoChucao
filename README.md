@@ -1,6 +1,6 @@
 # NeoChucao
 
-**One instrument, two navigators, same latent space.** A real-time SuperCollider instrument built on the 16-dimensional latent space of a pre-trained [RAVE](https://github.com/acids-ircam/RAVE) model (`birds.ts`, z0–z15). It can be played in two ways:
+**One instrument, two navigators, same latent space.** A real-time SuperCollider instrument built on the 16-dimensional latent space of a pre-trained [RAVE](https://github.com/acids-ircam/RAVE) model (`birds.ts`, z0–z15). It can be played in two ways, as two separate modes. You pick one per session:
 
 - **MIDI keyboard**: precise and performer-controlled. Notes, velocity and mod wheel set coordinates, and an XY pad sends each note along a looping trajectory through the remaining dimensions.
 - **AI agent via [ClaudeCollider](https://github.com/jeremyruppel/claude-collider) (MCP)**: driven by language and exploratory. You describe a direction, Claude writes the patterns, and you hear where in the space it lands.
@@ -40,21 +40,36 @@ models/     Where birds.ts goes (not tracked)
 
 ## Quick start
 
-Requires [SuperCollider](https://supercollider.github.io) and Node.js 18+. Then:
+NeoChucao has **two independent modes**, and you choose which one to run. Both play the same RAVE model, but each is a separate setup with its own entry point. They do not run together.
+
+| | MIDI mode | Agent mode |
+|---|---|---|
+| You play it with | A MIDI keyboard + GUI XY pad | Natural-language prompts to Claude |
+| Entry point | [`midi/rave_midi_filter.scd`](midi/rave_midi_filter.scd) | [`agent/boot.scd`](agent/boot.scd) + Claude Code |
+| Needs | SuperCollider, nn.ar, `birds.ts` | The same, plus Node.js 18+, ClaudeCollider and Claude Code |
+| Setup | `./setup.sh --midi` | `./setup.sh` |
+
+### 1. Install
 
 ```bash
 git clone --recurse-submodules https://github.com/IAndy-10/NeoChucao.git
 cd NeoChucao
-./setup.sh
+./setup.sh          # both modes (needs Node.js 18+)
+./setup.sh --midi   # MIDI mode only: skips ClaudeCollider and Node.js
 ```
 
-`setup.sh` builds [ClaudeCollider](https://github.com/jeremyruppel/claude-collider) (a git submodule at `agent/claude-collider`) and links its SuperCollider classes into your Extensions folder. It also installs [nn.ar](https://github.com/elgiano/nn.ar) if it is missing and downloads the RAVE `birds` model (138 MB) into `models/`. It is safe to re-run. Restart SuperCollider afterwards.
+`setup.sh` installs [nn.ar](https://github.com/elgiano/nn.ar) if it is missing and downloads the RAVE `birds` model (138 MB) into `models/`. Without `--midi`, it also builds [ClaudeCollider](https://github.com/jeremyruppel/claude-collider) (a git submodule at `agent/claude-collider`) and links its classes into your SuperCollider Extensions folder. It is safe to re-run, and you can run plain `./setup.sh` later to add agent mode. Restart SuperCollider afterwards.
 
-Pick a navigator:
-- **MIDI**: open `midi/rave_midi_filter.scd`, run blocks 1 → 2 → 3. See [`midi/README.md`](midi/README.md).
-- **Agent**: `cd agent && claude`, then run `agent/boot.scd` when Claude asks. See [`agent/README.md`](agent/README.md).
+### 2. Choose a mode
 
-Optional: run [`examples/d_dorian_dark.scd`](examples/d_dorian_dark.scd) as a dark rhythmic bed under the instrument.
+- **MIDI mode**: open `midi/rave_midi_filter.scd` in the SuperCollider IDE and run blocks 1 → 2 → 3. See [`midi/README.md`](midi/README.md).
+- **Agent mode**: `cd agent && claude`, then run `agent/boot.scd` when Claude asks. See [`agent/README.md`](agent/README.md).
+
+### 3. Switching modes
+
+Run one mode at a time. Both use the same SuperCollider audio server, and `agent/boot.scd` kills any running server when it starts. To switch, stop the current mode first: run **Block 4** in MIDI mode, or ask Claude to stop and close the session in agent mode. Then start the other one. Restarting SuperCollider also works.
+
+Optional: run [`examples/d_dorian_dark.scd`](examples/d_dorian_dark.scd) as a dark rhythmic bed under either mode.
 
 ## Iterations
 
