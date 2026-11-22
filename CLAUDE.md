@@ -59,5 +59,7 @@ Claude cannot hear audio, so verify headlessly. Use `/Applications/SuperCollider
 
 ## Known gaps
 
+- ClaudeCollider's effects (`cc_fx` / `~cc.fx`) do not work in agent mode: they route the pattern to a private bus (seen: bus 8) and the audio never reaches the output. `agent/CLAUDE.md` forbids them. A future fix could add reverb/delay inside `\rave_birds` in `boot.scd`, as SynthDef parameters, so no routing between the sclang processes is needed.
+
 - `wheel.ts`, used by `examples/rave_single_model.scd` and `examples/rave_mic_input.scd`, has no known download source.
 - The agent demo video is still a TODO in the README.

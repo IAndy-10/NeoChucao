@@ -64,7 +64,9 @@ To stop, ask Claude to stop everything, or run `~cc.stop;`. Never use `s.freeAll
 | `\pan` | 0 | Stereo position |
 | `\out` | 0 | Output bus |
 
-`z3–z15` are driven by 13 `LFDNoise3` generators at slightly different rates, scaled by `speed` and `radius`. That is the agent-side equivalent of the MIDI version's XY-pad trajectory. Claude can also add ClaudeCollider's own effects (`~cc.fx`) and built-in drum/bass instruments around it.
+`z3–z15` are driven by 13 `LFDNoise3` generators at slightly different rates, scaled by `speed` and `radius`. That is the agent-side equivalent of the MIDI version's XY-pad trajectory. Claude can also layer ClaudeCollider's built-in drum/bass instruments around it.
+
+**No effects.** ClaudeCollider's effects (`cc_fx` / `~cc.fx`) do not work with this setup: they move the pattern's output to a private bus, and the audio never reaches the speakers. `CLAUDE.md` tells Claude not to use them and to get space from long releases, overlapping layers and stereo panning instead.
 
 ## Example prompts
 
@@ -88,6 +90,7 @@ Mid-session:
 
 ## Troubleshooting
 
+- **Claude says it is playing but you hear nothing:** first check `s.meter;` in the SC IDE. If the output meters are flat, an effect has probably routed the pattern to a private bus. Ask Claude to remove all effects and set `\out, 0` on every pattern.
 - **Silence:** RAVE needs 44.1 kHz. `boot.scd` sets it. Check with `s.sampleRate.postln;`, and if it reads 48000, quit SuperCollider, relaunch, and re-run `boot.scd`.
 - `cc_status` showing `Server: stopped` is an artifact of the two-sclang setup and can be ignored if audio plays.
 - See [`CLAUDE.md`](CLAUDE.md) for the full rules (cc_execute syntax pitfalls, what not to call).

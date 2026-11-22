@@ -52,11 +52,10 @@ Because SC IDE's sclang does not create any synths during performance, **only CC
 Pbind(\instrument, \rave_birds, \freq, ..., \radius, 0.5, \speed, 0.3)
     → SynthDef(\rave_birds) — maps params to latent space + animated z3–z15
     → NN(\birds, \decode) — latent → audio
-    → hardware output (stereo)
-
-optionally:
-    → ~cc.fx (reverb, delay, etc.)
+    → hardware output (stereo, \out 0)
 ```
+
+No effects stage. ClaudeCollider's effects (`cc_fx` / `~cc.fx`) do not work in this two-sclang setup. See "Never use cc_fx" below.
 
 ## Available RAVE SynthDefs
 
@@ -96,7 +95,7 @@ Pdef(\melody, Pbind(
 | `\rel`    | 0.2     | Release time in seconds |
 | `\pan`    | 0       | Stereo pan (-1 to 1) |
 | `\gain`   | 0.8     | RAVE output gain (0.0–1.0) |
-| `\out`    | 0       | Output bus (default = main hardware out) |
+| `\out`    | 0       | Output bus. **Always leave it at 0** (main hardware out). Any other bus is silent. |
 | `\radius` | 0.5     | Trajectory width in z3–z15 (0 = static, higher = wilder) |
 | `\speed`  | 0.3     | Trajectory speed in z3–z15 (Hz, higher = faster movement) |
 | `\timbre` | 0       | Direct control of latent z2 (-2 to +2) |
@@ -151,6 +150,15 @@ The CC MCP sclang's `NN` registry is always empty. The model is already loaded o
 ### Never use custom SynthDef from cc_execute
 
 `SynthDef.add` fails silently from cc_execute — CC MCP's `s` shows the server as "not running". Use only `\rave_birds` (defined by boot.scd) and built-in CC instruments (`\cc_pad`, `\cc_lead`, `\cc_bass`, `\cc_kick`, `\cc_snare`, `\cc_hihat`).
+
+### Never use cc_fx (or `~cc.fx`)
+
+ClaudeCollider's effects chain does not work with this two-sclang architecture. Loading an effect (for example a reverb) moves the pattern's output to a private bus (seen: bus 8). The audio stays on that bus and never reaches the speakers. Claude then reports that it is playing, but the user hears nothing.
+
+- Do not call the `cc_fx` tool or `~cc.fx` in this project, and do not set `\out` to anything but `0`.
+- For space and depth, use long `\rel` values (2–8 s), overlapping layers (several `Pdef`s with offset `\dur`), and `\pan` spread across layers.
+- If the user asks for reverb or delay, explain this limitation and offer the alternatives above instead.
+- If a session goes silent after an effect was added: remove the effect, set `\out, 0` on every `Pdef`, and replay.
 
 ## 48kHz / RAVE Sample Rate Issue
 
