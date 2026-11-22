@@ -58,6 +58,8 @@ cd NeoChucao
 ./setup.sh --midi   # MIDI mode only: skips ClaudeCollider and Node.js
 ```
 
+Those commands are all you need. If you cloned without `--recurse-submodules`, `./setup.sh` fetches the submodule for you. Use `git clone`, not GitHub's "Download ZIP": the ZIP does not include the `agent/claude-collider` submodule, so agent mode will not work from it.
+
 `setup.sh` installs [nn.ar](https://github.com/elgiano/nn.ar) if it is missing and downloads the RAVE `birds` model (138 MB) into `models/`. Without `--midi`, it also builds [ClaudeCollider](https://github.com/jeremyruppel/claude-collider) (a git submodule at `agent/claude-collider`) and links its classes into your SuperCollider Extensions folder. It is safe to re-run, and you can run plain `./setup.sh` later to add agent mode. Restart SuperCollider afterwards.
 
 ### 2. Choose a mode
