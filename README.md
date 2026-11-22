@@ -13,7 +13,9 @@
 
 **Agent session**
 
-> TODO: agent demo video coming soon. Meanwhile, listen to [`agent/example.wav`](agent/example.wav).
+[![NeoChucao agent demo](https://img.youtube.com/vi/QfZsKgdYTX4/maxresdefault.jpg)](https://www.youtube.com/watch?v=QfZsKgdYTX4)
+
+You can also listen to a recorded session: [`agent/example.wav`](agent/example.wav).
 
 ## MIDI vs Agent
 
